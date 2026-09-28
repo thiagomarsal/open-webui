@@ -500,6 +500,7 @@ def convert_output_to_messages(
                         'name': item.get('name', ''),
                         'arguments': arguments,
                     },
+                    **({'extra_content': item['extra_content']} if item.get('extra_content') else {}),
                 }
             )
 

@@ -5356,6 +5356,8 @@ async def streaming_chat_response_handler(response, ctx):
                                                     item['name'] = func.get('name', item.get('name', ''))
                                                     item['arguments'] = func.get('arguments', item.get('arguments', ''))
                                                     item['status'] = 'in_progress'
+                                                    if tc.get('extra_content'):
+                                                        item['extra_content'] = tc['extra_content']
                                                 else:
                                                     output_index = len(output)
                                                     item = {
@@ -5365,6 +5367,7 @@ async def streaming_chat_response_handler(response, ctx):
                                                         'name': func.get('name', ''),
                                                         'arguments': '',
                                                         'status': 'in_progress',
+                                                        **({'extra_content': tc['extra_content']} if tc.get('extra_content') else {}),
                                                     }
                                                     output.append(item)
                                                     output_by_call_id[call_id] = (output_index, item)
@@ -5819,6 +5822,7 @@ async def streaming_chat_response_handler(response, ctx):
                                                 arguments if isinstance(arguments, str) else JSONCodec.dumps(arguments)
                                             ),
                                         },
+                                        **({'extra_content': item['extra_content']} if item.get('extra_content') else {}),
                                     }
                                 )
                         if responses_api_tool_calls:
