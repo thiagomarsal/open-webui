@@ -5288,6 +5288,10 @@ async def streaming_chat_response_handler(response, ctx):
                                         for delta_tool_call in delta_tool_calls:
                                             tool_call_index = delta_tool_call.get('index')
 
+                                            if tool_call_index is None:
+                                                tool_call_index = 0
+                                                delta_tool_call['index'] = tool_call_index
+
                                             if tool_call_index is not None:
                                                 # Check if the tool call already exists
                                                 current_response_tool_call = None
